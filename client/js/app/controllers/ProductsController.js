@@ -20,20 +20,20 @@ class ProductsController {
   }
 
   productsFilter(){
-         //setup before functions
-     let typingTimer;                //timer identifier
-     let doneTypingInterval = 1000;  //time in ms (2 seconds)
+        
+     let typingTimer;                //
+     let doneTypingInterval = 1000;  // (1 seconds)
      let myInput =  document.querySelector('#inputSearch');
  
-     //on keyup, start the countdown
-     myInput.addEventListener('keyup', () => {
+     //on keyup, start
+     myInput.addEventListener('input', () => {
          clearTimeout(typingTimer);         
          typingTimer = setTimeout(() => this.importProducts(myInput.value), doneTypingInterval);
          
      });
   }
 
-  importProducts(event='') {
+  importProducts(event) {
     
     let service = new ProductsService();
    
@@ -41,7 +41,9 @@ class ProductsController {
     .allProducts()
     .then(        
       (products) => {
+
         this._allProducts.erase();
+
         products.forEach(          
           products => {
           if(event){            
@@ -53,9 +55,12 @@ class ProductsController {
               this._allProducts.add(products);
               this._alert.message = 'Lista de produtos carregada!'  
             }           
-          });        
+          }
+        ); 
+
         if (this._allProducts.productsList.length == 0) this._alert.message = 'Sem resultados!'          
-        setTimeout(() => this._alert.message = '', 5000);     
+        setTimeout(() => this._alert.message = '', 5000);  
+
       }      
     )
         .catch(erro => this._alert.message = erro);
