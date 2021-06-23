@@ -7,19 +7,26 @@ class ProductsController {
       new AlertView($('#alertView')),
       'message'
     );
+   
+    this._allProducts = new Bind(
+      new ProductsList(), 
+      new ProductsView($('#products')), 
+      'add', 'erase' , 'order', 'reverseOrder');
 
-    this.allProducts();
+      this.importProducts();
   }
 
-  allProducts() {
-    // TODO: implementar
+  importProducts() {
 
-    // let service = new ProductsServics();
-    // service
-    //   .allProducts()
-    //   .then()
-    //   .catch();
+    let service = new ProductsService();
+      service
+      .allProducts()
+      .then(products => products.forEach(products => {
+        this._allProducts.add(products);
+        this._alert.message = 'Negociações do período importadas'   
+      }))
+      .catch(erro => this._alert.message = erro);    
 
-    this._alert.message = 'ProductsController ainda não foi implementado.';
+    
   }
 }
