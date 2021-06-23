@@ -7,8 +7,7 @@ class ProductsService {
     // TODO: implementar
     return this._http
             .get('api/products')
-            .then(productsList => {
-                console.log(products);
+            .then(productsList => {                
                 return productsList.map(product => new Product(product.image, product.description, product.value));
             })
             .catch(erro => {

@@ -1,5 +1,6 @@
 class ProductsController {
   constructor() {
+
     let $ = document.querySelector.bind(document);
 
     this._alert = new Bind(
@@ -13,20 +14,75 @@ class ProductsController {
       new ProductsView($('#products')), 
       'add', 'erase' , 'order', 'reverseOrder');
 
-      this.importProducts();
+
+    this.importProducts();
+    this.teste();
+   
+
   }
 
-  importProducts() {
-
+  teste(){
+         //setup before functions
+     let typingTimer;                //timer identifier
+     let doneTypingInterval = 1000;  //time in ms (2 seconds)
+     let myInput =  document.querySelector('#inputSearch');
+ 
+     //on keyup, start the countdown
+     myInput.addEventListener('keyup', () => {
+         clearTimeout(typingTimer);         
+         typingTimer = setTimeout(() => this.importProducts(myInput.value), doneTypingInterval);
+         
+     });
+  }
+  importProducts(event='') {
+    
     let service = new ProductsService();
+   
+    service
+    .allProducts()
+    .then(        
+      (products) => {
+        this._allProducts.erase();
+        products.forEach(          
+          products => {
+          if(event){            
+            if (products.description.toUpperCase().includes(event.toUpperCase())){
+              this._allProducts.add(products);
+              this._alert.message = 'Filtro aplicado!'   
+            }
+          } else {
+            this._allProducts.add(products);
+            this._alert.message = 'Lista de produtos carregada!'  
+          }           
+        }); 
+       
+       if (this._allProducts.productsList.length == 0) {
+         this._alert.message = 'Sem resultados!' 
+         
+       }
+        setTimeout(() => this._alert.message = '', 4000);     
+      }      
+    )
+        .catch(erro => this._alert.message = erro);
+  }
+
+  FilterProducts(search) {
+      let service = new ProductsService();
       service
       .allProducts()
-      .then(products => products.forEach(products => {
-        this._allProducts.add(products);
-        this._alert.message = 'Negociações do período importadas'   
+      .then(products => products.forEach(products => {  
+
+        if (products.description.toUpperCase().includes(search.toUpperCase())){
+          this._allProducts.add(products);
+          this._alert.message = 'Filtro aplicado!'   
+        }
+
       }))
       .catch(erro => this._alert.message = erro);    
-
+erase
     
   }
+
+ 
+
 }

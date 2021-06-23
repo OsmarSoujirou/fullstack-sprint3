@@ -14,8 +14,7 @@ class ProductsList {
     return [].concat(this._productsList);
   }
   
-  erase() {
-    
+  erase() {    
     this._productsList= [];
   }
   
