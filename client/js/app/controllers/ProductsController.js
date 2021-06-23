@@ -12,16 +12,14 @@ class ProductsController {
     this._allProducts = new Bind(
       new ProductsList(), 
       new ProductsView($('#products')), 
-      'add', 'erase' , 'order', 'reverseOrder');
-
+      'add', 'erase' );
 
     this.importProducts();
-    this.teste();
-   
+    this.productsFilter();   
 
   }
 
-  teste(){
+  productsFilter(){
          //setup before functions
      let typingTimer;                //timer identifier
      let doneTypingInterval = 1000;  //time in ms (2 seconds)
@@ -34,6 +32,7 @@ class ProductsController {
          
      });
   }
+
   importProducts(event='') {
     
     let service = new ProductsService();
@@ -50,39 +49,15 @@ class ProductsController {
               this._allProducts.add(products);
               this._alert.message = 'Filtro aplicado!'   
             }
-          } else {
-            this._allProducts.add(products);
-            this._alert.message = 'Lista de produtos carregada!'  
-          }           
-        }); 
-       
-       if (this._allProducts.productsList.length == 0) {
-         this._alert.message = 'Sem resultados!' 
-         
-       }
-        setTimeout(() => this._alert.message = '', 4000);     
+            } else {
+              this._allProducts.add(products);
+              this._alert.message = 'Lista de produtos carregada!'  
+            }           
+          });        
+        if (this._allProducts.productsList.length == 0) this._alert.message = 'Sem resultados!'          
+        setTimeout(() => this._alert.message = '', 5000);     
       }      
     )
         .catch(erro => this._alert.message = erro);
   }
-
-  FilterProducts(search) {
-      let service = new ProductsService();
-      service
-      .allProducts()
-      .then(products => products.forEach(products => {  
-
-        if (products.description.toUpperCase().includes(search.toUpperCase())){
-          this._allProducts.add(products);
-          this._alert.message = 'Filtro aplicado!'   
-        }
-
-      }))
-      .catch(erro => this._alert.message = erro);    
-erase
-    
-  }
-
- 
-
 }

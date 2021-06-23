@@ -90,6 +90,7 @@ video {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
+  transition: all 0.2s ease-in;
 }
 /* HTML5 display-role reset for older browsers */
 article,
@@ -104,9 +105,14 @@ menu,
 nav,
 section {
   display: block;
+  transition: all 0.2s ease-in;
 }
 body {
   line-height: 1;
+}
+
+:hover{
+  transition: all 0.2s ease-in;
 }
 ol,
 ul {
@@ -122,6 +128,7 @@ q:before,
 q:after {
   content: "";
   content: none;
+  transition: all 0.2s ease-in;
 }
 table {
   border-collapse: collapse;
